@@ -1,11 +1,12 @@
 # aridtrial: can compost and biochar bring life back to desert soil?
 
 [![CI](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/ci.yml)
-[![Dashboard](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/pages.yml/badge.svg)](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/pages.yml)
 
-### 👉 **[Open the live dashboard](https://<OWNER>.github.io/<REPO>/)** *(replace `<OWNER>` and `<REPO>`; one-time setup in [Run it on GitHub](#1-run-it-on-github-no-install))*
+
+### 👉 **[Open the live dashboard](https://zgouyandeh.github.io/aridtrial_scientific_dashboard/)** 
 
 > **Please read first: every number in this project comes from simulated (synthetic) data.**
+> 
 > The trial is a realistic *simulation* of a one-year desert field experiment near Al Wathba (Abu Dhabi).
 > I planted known effects in it on purpose, so I can check that the analysis finds them. Nothing here is a scientific
 > claim about real soil. The goal is to show a complete, auditable way of running and analysing such a trial.
