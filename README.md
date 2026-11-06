@@ -1,7 +1,7 @@
 # aridtrial: can compost and biochar bring life back to desert soil?
 
-[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/ci.yml)
-[![Dashboard](https://github.com/<OWNER>/<REPO>/actions/workflows/pages.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/pages.yml)
+[![CI](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/ci.yml)
+[![Dashboard](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/pages.yml/badge.svg)](https://github.com/zgouyandeh/aridtrial_scientific_dashboard/actions/workflows/pages.yml)
 
 ### 👉 **[Open the live dashboard](https://<OWNER>.github.io/<REPO>/)** *(replace `<OWNER>` and `<REPO>`; one-time setup in [Run it on GitHub](#1-run-it-on-github-no-install))*
 
