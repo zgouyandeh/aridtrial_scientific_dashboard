@@ -1,0 +1,30 @@
+# PostGIS + Grafana stack.   docker compose up -d   then   aridtrial demo --postgis
+# (the compose database listens on 5432; set ARIDTRIAL_DSN accordingly, see README)
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: aridtrial
+      POSTGRES_PASSWORD: aridtrial
+      POSTGRES_DB: aridtrial
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aridtrial"]
+      interval: 5s
+      retries: 10
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/trial_overview.json
+    ports: ["3000:3000"]
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+volumes:
+  pgdata:

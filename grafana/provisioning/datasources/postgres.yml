@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: AridTrial
+    uid: aridtrial-pg
+    type: grafana-postgresql-datasource
+    access: proxy
+    url: db:5432
+    user: aridtrial
+    jsonData:
+      database: aridtrial
+      sslmode: disable
+      postgresVersion: 1600
+    secureJsonData:
+      password: aridtrial
+    isDefault: true

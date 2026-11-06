@@ -1,0 +1,68 @@
+contract_version: 1
+run_profile: synthetic_trial_with_optional_real_context
+
+# The selected operational dataset is explicit. Real reference/context datasets
+# are stored separately and never silently replace synthetic on-site observations.
+datasets:
+  plot_layout:
+    selected_source: synthetic
+    allowed_sources: [synthetic]
+    ingest_target: core.plot
+  soil_samples:
+    selected_source: synthetic
+    allowed_sources: [synthetic, real]
+    ingest_target: raw.kobo_submission
+    mixing: forbidden
+    real_source_status: prepared_separately_not_ingested
+  tree_observations:
+    selected_source: synthetic
+    allowed_sources: [synthetic, real]
+    ingest_target: raw.kobo_submission
+    mixing: forbidden
+    real_source_status: prepared_separately_not_ingested
+  station_weather:
+    selected_source: synthetic_station
+    allowed_sources: [synthetic_station]
+    ingest_target: core.weather_daily
+    generation_context: [synthetic_weather_generator, era5_land_reanalysis]
+  weather_reanalysis:
+    selected_source: optional_real_reference
+    allowed_sources: [real, absent]
+    ingest_target: core.weather_reanalysis
+    role: independent_reference_only
+  sensor_readings:
+    selected_source: synthetic
+    allowed_sources: [synthetic]
+    ingest_target: core.sensor_reading
+  water_meter_readings:
+    selected_source: synthetic
+    allowed_sources: [synthetic]
+    ingest_target: core.water_meter
+  plot_level_ndvi:
+    selected_source: synthetic_plot
+    allowed_sources: [synthetic_plot]
+    ingest_target: core.ndvi
+    generation_context: [synthetic_canopy_signal, sentinel2_block_context]
+  sentinel2_block_ndvi:
+    selected_source: optional_real_reference
+    allowed_sources: [real, absent]
+    ingest_target: core.ndvi_block
+    role: block_level_context_only
+  ground_truth:
+    selected_source: synthetic_validation_only
+    allowed_sources: [synthetic_validation_only]
+    ingest_target: null
+    ingest: false
+
+combination_rules:
+  weather:
+    mode: real_forcing_synthetic_station
+    require_real_reference_table: true
+    allow_reanalysis_to_replace_station: false
+  sentinel2:
+    mode: real_block_context_synthetic_plot
+    allow_block_to_plot_copy: false
+  kobo:
+    mode: source_exclusive
+    allow_real_synthetic_union: false
+    require_explicit_source_migration: true

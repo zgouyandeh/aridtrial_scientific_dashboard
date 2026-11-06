@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aridtrial"
+version = "0.1.0"
+description = "End-to-end data and analysis stack for a desert soil-amendment field trial (synthetic demo)."
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "statsmodels",
+    "lifelines",
+    "pandera",
+    "sqlalchemy>=2",
+    "psycopg2-binary",
+    "pyproj",
+    "matplotlib",
+    "openpyxl",
+    "aquacrop",
+    "requests",
+    "pyyaml",
+    "xarray",
+    "netCDF4",
+    "cdsapi",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "httpx", "fastapi>=0.110"]
+dashboard = ["fastapi>=0.110", "uvicorn[standard]>=0.27"]
+
+[project.scripts]
+aridtrial = "aridtrial.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::SyntaxWarning",
+    "ignore::DeprecationWarning",
+    "ignore::FutureWarning",
+    "ignore::UserWarning",
+]
+
+[tool.setuptools.package-data]
+aridtrial = ["dashboard/static/*", "dashboard/static/**/*"]

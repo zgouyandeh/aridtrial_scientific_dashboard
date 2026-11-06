@@ -1,0 +1,91 @@
+name: Dashboard on GitHub Pages
+
+# Builds the whole project from scratch on a GitHub runner (synthetic data -> PostgreSQL -> QC -> analysis),
+# freezes the dashboard's API responses to JSON and publishes the React dashboard as a static site.
+# Result: https://<OWNER>.github.io/<REPO>/   (enable once: Settings -> Pages -> Source = "GitHub Actions")
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      full_run:
+        description: "Full-size simulations (slower, ~15-30 min). Default: quick run (~5 min)."
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: aridtrial
+          POSTGRES_PASSWORD: aridtrial
+          POSTGRES_DB: aridtrial
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U aridtrial"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      ARIDTRIAL_DSN: postgresql+psycopg2://aridtrial:aridtrial@localhost:5432/aridtrial
+      PYTHONUTF8: "1"
+      FULL_RUN: ${{ inputs.full_run && 'true' || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Python package
+        run: pip install -e ".[dashboard]"
+
+      - name: Run the full pipeline (simulate, ingest, QC, reconcile, analyse, persist results)
+        run: |
+          if [ "$FULL_RUN" = "true" ]; then aridtrial demo; else aridtrial demo --quick; fi
+
+      - name: Build the static React dashboard
+        working-directory: frontend
+        env:
+          VITE_STATIC: "1"
+        run: |
+          npm ci
+          npm run build
+
+      - name: Export the API responses as static JSON
+        run: python scripts/export_static_site.py
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist-static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

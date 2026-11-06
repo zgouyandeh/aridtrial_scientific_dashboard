@@ -1,0 +1,47 @@
+.an-page{padding-top:8px}
+.an-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:18px 0 20px}
+.an-tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font-size:12.5px;font-weight:600;color:#6f7b73;margin-bottom:-1px}
+.an-tabs button:hover{color:var(--ink)}
+.an-tabs button.active{color:var(--green);border-bottom-color:var(--green)}
+.an-prov{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:11px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.an-prov code,.an-formula code,.an-hint code{font-size:11px;background:#f1f4ee;border-radius:4px;padding:1px 5px;color:#3f4d45}
+.an-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:16px;margin-bottom:16px}
+.an-card{padding:18px 20px;min-width:0}
+.an-wide{grid-column:1/-1}
+.an-card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}
+.an-card h3{margin:0;font:700 14px Manrope,sans-serif;letter-spacing:-.2px}
+.an-card-head p,.an-hint{margin:4px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5}
+.an-hint{margin-top:10px}
+.an-svg{width:100%;height:auto;display:block}
+.an-empty-chart{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+.an-toolbar{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin:14px 0}
+.an-select{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);font-weight:600}
+.an-select select,.last-updated select{border:1px solid var(--line);border-radius:8px;background:#fff;padding:7px 10px;font-size:12px;color:var(--ink);max-width:100%}
+.an-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#5d6b63;margin-top:6px}
+.an-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.an-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0}
+.an-stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow)}
+.an-stat span{font-size:10.5px;color:var(--muted);font-weight:600}
+.an-stat b{font:700 20px Manrope,sans-serif;letter-spacing:-.5px}
+.an-stat small{font-size:10.5px;color:var(--muted)}
+.an-good b{color:var(--green)}.an-warn b{color:var(--amber)}
+.an-badge{display:inline-block;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;background:#eef0eb;color:#5d6b63}
+.an-b-good{background:var(--green-2);color:var(--green)}.an-b-warn{background:var(--amber-bg);color:var(--amber)}
+.an-table td,.an-table th{white-space:nowrap}
+.an-dense td,.an-dense th{padding:7px 10px;font-size:11.5px}
+.an-kv{display:grid;grid-template-columns:1fr auto;gap:6px 18px;font-size:12px;margin-top:10px}
+.an-kv span{color:var(--muted);text-transform:capitalize}.an-kv b{text-align:right;font-variant-numeric:tabular-nums}
+.an-h4{margin:16px 0 6px;font-size:11px;letter-spacing:.6px;color:#8a948d;text-transform:uppercase}
+.an-notes{margin:10px 0 28px;padding:14px 18px 14px 32px;font-size:12px;line-height:1.6;color:#5d6b63;background:#fbfcf9;border:1px dashed #dfe4da;border-radius:10px}
+.an-formula{font-size:12px;color:var(--muted);margin:0 0 6px}
+.an-rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.an-rules div{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#5d6b63;line-height:1.5}.an-rules b{color:var(--ink);font-size:12px}
+.an-share-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;background:#eee}
+.an-share-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#5d6b63;margin-top:8px}
+.an-share-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}
+.an-side a{font-size:11.5px;padding:8px 12px}
+.last-updated select{margin-top:4px}
+@media(max-width:1120px){.an-side{display:none}}
+@media(max-width:760px){.an-grid{grid-template-columns:1fr}.an-card{padding:14px}}
+.an-card .data-table-wrap{overflow-x:auto}
+.an-grid{align-items:start}

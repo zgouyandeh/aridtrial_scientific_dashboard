@@ -1,0 +1,630 @@
+{
+ "uid": "trial-overview",
+ "title": "Desert soil trial: field & management overview",
+ "tags": [
+  "trial",
+  "qc"
+ ],
+ "timezone": "utc",
+ "schemaVersion": 39,
+ "version": 1,
+ "refresh": "5m",
+ "time": {
+  "from": "2025-10-01T00:00:00Z",
+  "to": "2026-10-01T00:00:00Z"
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "stat",
+   "title": "QC-passed hourly sensor rows",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT count(*) FROM mart.sensor_clean"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    }
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "Open QC failures (latest run)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 4,
+    "y": 0,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT count(*) FROM audit.qc_latest WHERE severity='fail'"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    }
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 3,
+   "type": "stat",
+   "title": "Audit chain entries",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 8,
+    "y": 0,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT count(*) FROM audit.ingest_log"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    }
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Latest frozen dataset version",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 0,
+    "w": 8,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT version_id FROM audit.dataset_version ORDER BY created_at DESC LIMIT 1"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    }
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 5,
+   "type": "stat",
+   "title": "Plots",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 20,
+    "y": 0,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT count(*) FROM core.plot"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    }
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 10,
+   "type": "timeseries",
+   "title": "Soil moisture by treatment (daily mean VWC)",
+   "description": "QC-passed hourly sensor data, averaged over plots within treatment.",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 4,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT \"time\", treatment AS metric, vwc AS value FROM mart.v_vwc_daily_treatment WHERE $__timeFilter(\"time\") ORDER BY 1"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 0,
+      "showPoints": "never"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "bottom",
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 11,
+   "type": "timeseries",
+   "title": "Cumulative metered irrigation per plot (kL)",
+   "description": "",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 4,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT \"time\", treatment AS metric, cum_irrigation_kl AS value FROM mart.v_irrigation_cum_treatment WHERE $__timeFilter(\"time\") ORDER BY 1"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 0,
+      "showPoints": "never"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "bottom",
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 12,
+   "type": "timeseries",
+   "title": "Sentinel-2 NDVI by treatment",
+   "description": "",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 12,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT \"time\", treatment AS metric, ndvi AS value FROM mart.v_ndvi_treatment WHERE $__timeFilter(\"time\") ORDER BY 1"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 0,
+      "showPoints": "never"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "bottom",
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 13,
+   "type": "timeseries",
+   "title": "Reference ET0 and rainfall (mm/day)",
+   "description": "",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 12,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT date::timestamp AS \"time\", et0_mm AS \"ET0\", rain_mm AS \"Rain\" FROM mart.weather_clean WHERE $__timeFilter(date::timestamp) ORDER BY 1"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "mm",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 0,
+      "showPoints": "never"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "bottom",
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 14,
+   "type": "table",
+   "title": "Soil by campaign and treatment (0-15 cm)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 20,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT campaign, treatment, round(soc_0_15_pct::numeric,3) AS soc_pct, round(ec_0_15_dsm::numeric,2) AS ec_dsm FROM mart.v_soil_campaign_treatment ORDER BY campaign, treatment"
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "type": "table",
+   "title": "Tree survival and height",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 20,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT campaign, treatment, round(survival::numeric,3) AS survival, round(mean_height_cm::numeric,1) AS height_cm FROM mart.v_tree_survival ORDER BY campaign, treatment"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "type": "table",
+   "title": "Data quality flags (latest run)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 28,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT dataset, severity, rule_id, n FROM mart.v_qc_summary ORDER BY dataset, severity, n DESC"
+    }
+   ]
+  },
+  {
+   "id": 17,
+   "type": "table",
+   "title": "Data freshness",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 28,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT dataset, latest, n_rows FROM mart.v_data_freshness ORDER BY dataset"
+    }
+   ]
+  },
+  {
+   "id": 18,
+   "type": "table",
+   "title": "Plot status (latest)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 36,
+    "w": 24,
+    "h": 10
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "table",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT plot_id, block, treatment, round(ndvi_latest::numeric,3) AS ndvi, round(vwc_latest::numeric,3) AS vwc, round(survival_latest::numeric,2) AS survival FROM mart.v_plot_latest ORDER BY plot_id"
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "type": "timeseries",
+   "title": "Station vs ERA5-Land: Tmax (reference only)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 0,
+    "y": 46,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT \"time\", tmax_station AS \"station\", tmax_reanalysis AS \"ERA5-Land\" FROM mart.v_weather_vs_reanalysis ORDER BY 1"
+    }
+   ],
+   "description": "Optional: populated only when external reference data (ERA5-Land / Sentinel-2) have been loaded."
+  },
+  {
+   "id": 20,
+   "type": "timeseries",
+   "title": "Sentinel-2 block-level NDVI (10 m pixels)",
+   "datasource": {
+    "type": "grafana-postgresql-datasource",
+    "uid": "aridtrial-pg"
+   },
+   "gridPos": {
+    "x": 12,
+    "y": 46,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "grafana-postgresql-datasource",
+      "uid": "aridtrial-pg"
+     },
+     "format": "time_series",
+     "rawQuery": true,
+     "editorMode": "code",
+     "rawSql": "SELECT \"time\", block AS metric, ndvi FROM mart.v_ndvi_block ORDER BY 1"
+    }
+   ],
+   "description": "Optional: populated only when external reference data (ERA5-Land / Sentinel-2) have been loaded."
+  }
+ ],
+ "templating": {
+  "list": []
+ },
+ "annotations": {
+  "list": []
+ }
+}
