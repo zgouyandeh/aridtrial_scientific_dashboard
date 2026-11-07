@@ -7,7 +7,7 @@
 
 > **Important: All trial observations and reported experimental results in this public demonstration are based on synthetic data.**
 >
-> AridTrial simulates a one-year desert field experiment near Al Wathba, Abu Dhabi. Treatment effects and realistic data-quality faults are deliberately introduced so that the statistical methods and data pipeline can be tested against known conditions.
+> AridTrial simulates a one-year desert field experiment. Treatment effects and realistic data-quality faults are deliberately introduced so that the statistical methods and data pipeline can be tested against known conditions.
 >
 > This is an independent engineering and scientific-analysis demonstration, not a report of actual field measurements or evidence of treatment effectiveness in a real agricultural site.
 
